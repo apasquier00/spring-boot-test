@@ -4,7 +4,7 @@ import java.util.UUID;
 
 public class User {
 
-    public void setId(UUID id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -16,13 +16,15 @@ public class User {
         this.password = password;
     }
 
-    private UUID id;
+    private String id;
     private String email;
     private String password;
-    public User() {
-
+    public User(String id, String email, String password) {
+        this.id = id;
+        this.email = email;
+        this.password = password;
     }
-    public UUID getId() {
+    public String getId() {
         return id;
     }
 

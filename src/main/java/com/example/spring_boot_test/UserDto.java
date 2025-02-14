@@ -8,14 +8,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import java.util.UUID;
 
 public class UserDto {
-    public final UUID id;
+    public final String id;
     public final String email;
 
-    public UserDto(UUID id,String email) {
+    public UserDto(String id,String email) {
         this.id = id;
         this.email = email;
     }
-    public UUID getId() {
+    public String getId() {
         return id;
     }
 

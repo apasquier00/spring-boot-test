@@ -12,12 +12,14 @@ public class UserController {
 
     @PostMapping("/users")
     public User addUser(@RequestBody UserCreationParams params) {
-        return userService.addUser(params);
+        User user = new User(UUID.randomUUID().toString(), params.getEmail(), params.getPassword());
+        return userService.addUser(user);
     }
 
     @GetMapping("/users/{userId}")
-    public UserDto getUser(@PathVariable UUID userId) {
-        return userService.getUserById(userId);
+    public UserDto getUser(@PathVariable String userId) {
+        User user = userService.getUserById(userId);
+        return new UserDto(user.getId(), user.getEmail());
     }
 
 }

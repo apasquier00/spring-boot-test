@@ -5,6 +5,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import java.util.UUID;
 
 public interface UserService {
-    User addUser(UserCreationParams params);
-    UserDto getUserById(UUID userId);
+    User addUser(User user);
+    User getUserById(String userId);
 }
