@@ -3,7 +3,9 @@ package com.example.spring_boot_test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @RestController
@@ -20,7 +22,6 @@ public class UserController {
     @DeleteMapping("/users/{userId}")
     public void addUser(@PathVariable String userId) {
         userService.deleteUser(userId);
-        return;
     }
 
     @GetMapping("/users/{userId}")
@@ -30,9 +31,12 @@ public class UserController {
     }
 
     @GetMapping("/users")
-    public Stream<User> getAllUser() {
-        Stream<User> users = userService.getAllUsers();
-        return users;
-    }
+    public List<UserDto> getAllUser() {
+        try (Stream<User> users = userService.getAllUsers()) {
+            // Collecte les éléments du flux dans une liste avant de les retourner
+            return users.map(user -> new UserDto(user.getId(), user.getEmail()))
+                    .collect(Collectors.toList());
+        }}
+
 
 }

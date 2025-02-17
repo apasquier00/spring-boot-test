@@ -9,7 +9,7 @@ import java.util.stream.Stream;
 
 @Service
 public class UserServiceImpl implements UserService {
-    @Qualifier("jdbcUserDao")
+    @Qualifier("jpaUserDao")
     @Autowired
     UserDao userDao;
 
