@@ -8,6 +8,6 @@ public interface UserDao {
 
     @NotNull Stream<User> findAll();
     User getById(@NotNull String id);
-    void addUpdate(@NotNull User user);
+    User add(@NotNull User user);
     void delete(@NotNull String id);
 }

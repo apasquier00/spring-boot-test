@@ -23,15 +23,16 @@ public class InMemoryUserDao implements UserDao {
         return userMap.get(id);
     }
 
-    public void addUpdate(User user) {
+    public User add(User user) {
 
         userMap.put(user.getId(), user); // Store the user in the map
-
+        return user;
     }
 
     @Override
     public void delete(String id) {
-
+        userMap.remove(id);
+        return;
     }
 
     public Map<String, User> getUserMap() {

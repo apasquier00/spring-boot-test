@@ -32,7 +32,18 @@ public class JdbcUserDao implements  UserDao {
 
 
     public Stream<User> findAll() {
-        return Stream.empty();
+        String SELECT_ALL = "SELECT * FROM users";
+        Map<String, Object> params = new HashMap<>();
+
+        return jdbcTemplate.queryForStream(SELECT_ALL, params,
+                (rs, rowNum) -> {
+            return new User(
+                    rs.getString("id"),
+                    rs.getString("email"),
+                    rs.getString("password")
+            );
+                });
+
     }
 
 
@@ -53,17 +64,21 @@ public class JdbcUserDao implements  UserDao {
     }
 
 
-    public void addUpdate(User user) {
+    public User add(User user) {
         String ADD_USER = "INSERT INTO users VALUES (:id, :email, :password)";
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("id", user.getId());
         map.put("email", user.getEmail());
         map.put("password", user.getPassword());
         jdbcTemplate.execute(ADD_USER, map, (PreparedStatementCallback) ps -> ps.executeUpdate());
+        return user;
     }
 
-    @Override
     public void delete(String id) {
-
+        String DELETE_USER = "DELETE FROM users WHERE id = :id";
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("id", id);
+        jdbcTemplate.execute(DELETE_USER, map, (PreparedStatementCallback) ps -> ps.executeUpdate());
+        return;
     }
 }

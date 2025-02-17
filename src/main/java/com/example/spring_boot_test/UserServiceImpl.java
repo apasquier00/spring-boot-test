@@ -5,6 +5,8 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import java.util.stream.Stream;
+
 @Service
 public class UserServiceImpl implements UserService {
     @Qualifier("jdbcUserDao")
@@ -16,7 +18,7 @@ public class UserServiceImpl implements UserService {
     }
 
     public User addUser(User user) {
-        userDao.addUpdate(user);
+        userDao.add(user);
         return user;
     }
 
@@ -24,5 +26,16 @@ public class UserServiceImpl implements UserService {
 
 
         return userDao.getById(userId);
+    }
+
+    @Override
+    public void deleteUser(String userId) {
+        userDao.delete(userId);
+
+    }
+
+    @Override
+    public Stream<User> getAllUsers() {
+        return userDao.findAll();
     }
 }
