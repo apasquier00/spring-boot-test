@@ -12,16 +12,17 @@ import java.util.stream.Stream;
 public class UserController {
     @Autowired
     UserServiceImpl userService;
+    RandomUser randomUser = new RandomUser();
+
 
     @PostMapping("/users")
     public User addUser(@RequestBody UserCreationParams params) {
         User user = new User(UUID.randomUUID().toString(), params.getEmail(), params.getPassword());
-        //makeRandomUsers();
         return userService.addUser(user);
     }
 
     @DeleteMapping("/users/{userId}")
-    public void addUser(@PathVariable String userId) {
+    public void deleteUser(@PathVariable String userId) {
         userService.deleteUser(userId);
     }
 
@@ -29,6 +30,15 @@ public class UserController {
     public UserDto getUser(@PathVariable String userId) {
         User user = userService.getUserById(userId);
         return new UserDto(user.getId(), user.getEmail());
+    }
+
+    @PostMapping("/users/{userNbr}")
+    public void makeRandomUsers(@PathVariable String userNbr) {
+        for (int i = 0; i < Integer.parseInt(userNbr); i++) {
+            User user = new User(UUID.randomUUID().toString(), randomUser.randomEmail(), randomUser.randomPassword());
+            userService.addUser(user);
+
+    }
     }
 
     @GetMapping("/users")
@@ -39,36 +49,6 @@ public class UserController {
                     .collect(Collectors.toList());
         }}
 
-//    public void makeRandomUsers() {
-//        for (int i = 0; i < 10; i++) {
-//            User user = new User(UUID.randomUUID().toString(), randomEmail(), randomPassword());
-//            userService.addUser(user);
-//        }
-//    }
-//    public String randomPassword() {
-//        StringBuilder name = new StringBuilder();
-//        for (int i = 0; i < randomInt(10); i++){
-//            name.append(convertIntToString(randomInt(25)));
-//        }
-//        return name.toString();
-//    }
-//
-//    public String randomEmail() {
-//        return randomPassword() +
-//                "@" +
-//                randomPassword() +
-//                randomExtension();
-//    }
-//
-//    public int randomInt(int i) {
-//        return (int) (1+(Math.random())*i);
-//    }
-//    public String convertIntToString(int i) {
-//        String[] alphabet = {"da","bi","ce","doo","er","fa","go","he","ib","je","ka","lo","mi","ne","or","pi","qa","ry","se","ta","bu","vy","wo","xy","yo","za"};
-//        return alphabet[i];
-//    }
-//    public String randomExtension(){
-//        String[] extension = {".fr", ".org", ".ru", ".en", ".com"};
-//        return extension[randomInt(4)];
-//    }
+
+
 }
